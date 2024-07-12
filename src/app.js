@@ -6,6 +6,10 @@ const cookieParser = require("cookie-parser");
 const errorHandler = require("./middlewares/error-handler");
 const path = require("path");
 
+const indexRouter = require("./routes/index.route");
+const albumsRouter = require("./routes/album.route");
+const picturesRouter = require("./routes/picture.route");
+
 const app = express();
 app.use(express.static(path.join(__dirname, "../public")));
 app.use(cookieParser());
@@ -54,9 +58,9 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/", (req, res) => {
-  res.render("login");
-});
+app.use("/", indexRouter);
+app.use("/albums", albumsRouter);
+app.use("/pictures", picturesRouter);
 
 app.use(errorHandler);
 module.exports = app;
