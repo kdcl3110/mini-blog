@@ -115,7 +115,11 @@
           ✕
         </button>
       </form>
-      <form action="/pictures/edit/<%= picture._id %>" method="post">
+      <form
+        action="/pictures/edit/<%= picture._id %>"
+        method="post"
+        enctype="multipart/form-data"
+      >
         <div class="space-y-3">
           <h3 class="text-lg font-bold">Mis à jour</h3>
           <div class="space-y-3">

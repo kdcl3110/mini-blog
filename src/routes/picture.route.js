@@ -37,6 +37,8 @@ router.post("/add/:albumId", upload.single("picture"), async (req, res) => {
 
 router.post("/edit/:pictureId", upload.single("picture"), async (req, res) => {
   const data = { ...req.body };
+
+  console.log(req?.file);
   if (req?.file) data.url = `/images/${req?.file?.filename}`;
   const picture = await Picture.findOneAndUpdate(
     { _id: req.params.pictureId },
