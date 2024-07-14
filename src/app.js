@@ -4,6 +4,7 @@ const cors = require("cors");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const errorHandler = require("./middlewares/error-handler");
+const expressLayouts = require("express-ejs-layouts");
 const path = require("path");
 
 const indexRouter = require("./routes/index.route");
@@ -22,6 +23,8 @@ app.use(
   })
 );
 
+app.use(expressLayouts);
+app.set("layout", "layout");
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 

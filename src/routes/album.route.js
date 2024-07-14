@@ -1,36 +1,39 @@
 const express = require("express");
 const router = express.Router();
-const Album = require("../models/album");
+const Album = require("../models/Album");
+const Picture = require("../models/Picture");
 
 // Afficher la liste des albums
 router.get("/", async (req, res) => {
-  const albums = await Album.find();
-  res.render("albums/list", { albums });
+  res.redirect("/");
+});
+
+router.get("/:id", async (req, res) => {
+  const album = await Album.findById(req.params.id);
+  const pictures = await Picture.find({ album: album._id });
+  res.render("album/view", { album, pictures, title: "photos" });
 });
 
 // Formulaire pour ajouter un album
-router.get("/add", (req, res) => {
-  res.render("albums/add");
+router.post("/edit/:id", async (req, res) => {
+  const { title } = req.body;
+  await Album.updateOne({ _id: req.params.id }, { title });
+  res.redirect("/");
 });
 
 // Ajouter un album
 router.post("/add", async (req, res) => {
-  const { title, banner } = req.body;
-  const album = new Album({ title, banner });
+  const { title } = req.body;
+  const album = new Album({ title });
   await album.save();
-  res.redirect("/albums");
+  res.redirect("/");
 });
 
 // Supprimer un album
 router.post("/delete/:id", async (req, res) => {
   await Album.findByIdAndDelete(req.params.id);
-  res.redirect("/albums");
-});
-
-// Voir un album
-router.get("/:id", async (req, res) => {
-  const album = await Album.findById(req.params.id).populate("pictures");
-  res.render("albums/view", { album });
+  await Picture.deleteMany({ album: req.params.id });
+  res.redirect("/");
 });
 
 module.exports = router;

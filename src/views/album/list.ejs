@@ -1,0 +1,132 @@
+<div class="grid grid-cols-3 gap-4">
+  <% albums.forEach(album => { %>
+  <div class="card bg-base-100 image-full shadow-xl m-4">
+    <figure class="h-[300px]">
+      <img alt="Shoes" src=<%= album.pictures[0]?.url ||
+      "images/assets/notimage.jpg" %> />
+    </figure>
+    <div class="card-body">
+      <h2 class="card-title"><%= album.title %></h2>
+      <p>Images: <%= album.pictures.length %></p>
+      <div class="card-actions justify-center">
+        <button
+          class="btn btn-circle btn-outline btn-error"
+          onclick="document.getElementById('delete_<%= album._id %>').showModal()"
+        >
+          <svg
+            class="w-6 h-6"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"
+            />
+          </svg>
+        </button>
+        <button
+          class="btn btn-circle btn-outline btn-success"
+          onclick="document.getElementById('update_<%= album._id %>').showModal()"
+        >
+          <svg
+            class="w-6 h-6"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"
+            />
+          </svg>
+        </button>
+        <a
+          class="btn btn-circle btn-outline btn-info"
+          href="/albums/<%= album._id %>"
+        >
+          <svg
+            class="w-6 h-6"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke="currentColor"
+              stroke-width="2"
+              d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z"
+            />
+            <path
+              stroke="currentColor"
+              stroke-width="2"
+              d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+            />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <dialog id="delete_<%= album._id %>" class="modal">
+    <div class="modal-box">
+      <form method="dialog">
+        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+          ✕
+        </button>
+      </form>
+      <div class="space-y-3">
+        <h3 class="text-lg font-bold">Attention</h3>
+        <div>
+          Vous aller supprimer l'album:
+          <span class="font-bold text-lg"><%= album.title %></span>
+        </div>
+      </div>
+      <div class="flex flex-col items-center pt-5">
+        <form action="albums/delete/<%= album._id %>" method="post">
+          <button class="btn btn-wide btn-error">Supprimer</button>
+        </form>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="update_<%= album._id %>" class="modal">
+    <div class="modal-box">
+      <form method="dialog">
+        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+          ✕
+        </button>
+      </form>
+      <form action="/albums/edit/<%= album._id %>" method="post">
+        <div class="space-y-3">
+          <h3 class="text-lg font-bold">Mis à jour</h3>
+          <input
+            type="text"
+            placeholder="Entrer le nom"
+            name="title"
+            value="<%= album.title %>"
+            class="input input-bordered input-accent w-full"
+          />
+        </div>
+        <div class="flex flex-col items-center pt-5">
+          <button class="btn btn-wide btn-accent">Enregistrer</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+  <% }) %>
+</div>

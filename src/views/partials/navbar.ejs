@@ -1,0 +1,52 @@
+<div class="shadow-lg">
+  <div class="navbar bg-base-100 container mx-auto">
+    <div class="navbar-start">
+      <div class="flex-1">
+        <a class="btn btn-ghost text-xl">Gallery</a>
+      </div>
+    </div>
+
+    <div class="navbar-center">
+      <!-- <div class="flex-none gap-2"> -->
+      <div class="form-control">
+        <input
+          type="text"
+          placeholder="Recherche..."
+          class="input input-bordered w-24 md:w-auto"
+        />
+      </div>
+      <!-- </div> -->
+    </div>
+    <% if(title == "albums") {%>
+    <div class="navbar-end">
+      <button class="btn btn-accent" onclick="add_album.showModal()">
+        Nouvel album
+      </button>
+    </div>
+    <% } %>
+  </div>
+
+  <dialog id="add_album" class="modal">
+    <div class="modal-box">
+      <form method="dialog">
+        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+          ✕
+        </button>
+      </form>
+      <form action="/albums/add" method="post">
+        <div class="space-y-3">
+          <h3 class="text-lg font-bold">Nouvel album</h3>
+          <input
+            type="text"
+            placeholder="Entrer le nom"
+            name="title"
+            class="input input-bordered input-accent w-full"
+          />
+        </div>
+        <div class="flex flex-col items-center pt-5">
+          <button class="btn btn-wide btn-accent">Enregistrer</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+</div>
